@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+model Forecasts {
+  id            Int      @id @default(autoincrement())
+  candidateName String
+  value         Float?
+  timestamp     DateTime
+  market        String
+}
+
+model Headlines {
+  id        Int      @id @default(autoincrement())
+  title     String
+  url       String   @unique
+  image     String
+  timestamp DateTime
+  source    String
+}
+
+model Polls {
+  id            Int      @id @default(autoincrement())
+  candidateName String
+  value         Float
+  pollId        Int
+  sampleSize    Int?
+  timestamp     DateTime
+  createdAt     DateTime
+
+  @@unique([pollId, candidateName])
+}
